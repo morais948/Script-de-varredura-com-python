@@ -15,8 +15,9 @@ WhiteSmoke = '#F5F5F5'
 PaleGoldenrod = '#EEE8AA'
 #fontes
 FONTE_VERDANA_BOLD = ('Verdana', 20, 'bold')
-FONTE_PAPYRUS_BOLD = ('papyrus', 20, 'bold')
+FONTE_PAPYRUS_BOLD = ('papyrus', 16, 'bold')
 #configs
+
 config_label = {'font': FONTE_VERDANA_BOLD,  'fg': WhiteSmoke, 'bg': LightSkyBlue, 'pady': 5}
 config_entry = {'font': FONTE_PAPYRUS_BOLD,  'fg': LightSlateGray, 'relief': FLAT}
 config_bt = {'font': FONTE_PAPYRUS_BOLD, 'bg':  'white', 'fg': LightSkyBlue,
@@ -63,17 +64,23 @@ class Buscador(object):
         self.menubar.add_command(label="Salvar", command=self.salvar)
         self.menubar.add_command(label="Voltar", command=self.voltar)
         self.menubar.add_command(label="Limpar", command=self.limpar)
-        
         self.janela.config(menu=self.menubar)
         
         #-----------------------------------------------------------------------------------------------------------------------------------------------
         self.label_tag = Label(self.frame_busca, text='Selecione ', **config_label)
-        self.label_tag.grid(row=1, column=1)
+        self.label_tag.grid(row=1, column=1, sticky=E)
 
         self.entrada_tag = Entry(self.frame_busca, **config_entry)
-        self.entrada_tag.grid(row=1, column=2)
+        self.entrada_tag.grid(row=1, column=2, sticky=W)
         self.entrada_tag.focus_set()
-        
+
+        #em testes---------------
+        cadeado = PhotoImage(file="cadeadoFechado.png")
+        label_cadeado = Label(self.frame_busca, cursor='hand2', image=cadeado)
+        label_cadeado.imagem = cadeado
+        label_cadeado.grid(row=1, column=1, sticky=W)
+        # em testes---------------
+
          #-----------------------------------------------------------------------------------------------------------------------------------------------
         delete = PhotoImage(file="delete1.png")
         self.bt_delete = Label(self.frame_busca, cursor='hand2', image=delete)
@@ -156,4 +163,6 @@ class Buscador(object):
 
                    
 buscador = Buscador()
+
+#trabalhar na funcionalidade do cadeado...
 
