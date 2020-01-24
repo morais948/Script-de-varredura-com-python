@@ -85,13 +85,13 @@ class Buscador(object):
 
      
         cadeado = PhotoImage(file="imagens/cadeadoAberto.png")
-        self.label_cadeado = Label(self.frame_busca, cursor='hand2', image=cadeado)
+        self.label_cadeado = Label(self.frame_busca, cursor='hand2', image=cadeado, bg=LightSkyBlue)
         self.label_cadeado.imagem = cadeado
         self.label_cadeado.grid(row=1, column=1, sticky=W)
 
          #-----------------------------------------------------------------------------------------------------------------------------------------------
         delete = PhotoImage(file="imagens/delete1.png")
-        self.bt_delete = Label(self.frame_busca, cursor='hand2', image=delete)
+        self.bt_delete = Label(self.frame_busca, cursor='hand2', image=delete, bg=LightSkyBlue)
         self.bt_delete.imagem = delete
         self.bt_delete.grid(row=1, column=1, sticky=E)
         #-----------------------------------------------------------------------------------------------------------------------------------------------
