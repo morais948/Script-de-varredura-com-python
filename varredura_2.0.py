@@ -121,7 +121,7 @@ class Buscador(object):
                     messagebox.showwarning('aviso', 'Seleção incorreta')
 
             except HTTPError as e:
-                messagebox.showerror('erro', f'erro HTTP {e}')
+                messagebox.showerror('erro', f'erro HTTP')
             except URLError as e:
                 messagebox.showerror('erro', 'URL errada!')
             except:
