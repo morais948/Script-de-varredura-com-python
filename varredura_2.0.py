@@ -16,7 +16,8 @@ WhiteSmoke = '#F5F5F5'
 PaleGoldenrod = '#EEE8AA'
 #fontes
 FONTE_VERDANA_BOLD = ('Verdana', 20, 'bold')
-FONTE_PAPYRUS_BOLD = ('papyrus',  15, 'bold')
+FONTE_PAPYRUS_BOLD = ('Verdana',  13, 'bold')
+FONTE_VERDANA_NORMAL_PEQUENA = ('Verdana', 13)
 #configs
 
 config_label = {'font': FONTE_VERDANA_BOLD,  'fg': WhiteSmoke, 'bg': LightSkyBlue}
@@ -99,7 +100,7 @@ class Buscador(object):
         self.scroll.grid(row=4, column=3, rowspan=2, sticky=N+S)
         
         self.text_conteudo = Text(self.frame_busca, wrap=WORD, yscrollcommand=self.scroll.set,
-                                  bg=WhiteSmoke, state=NORMAL)
+                                  bg='white', state=NORMAL, font=FONTE_VERDANA_NORMAL_PEQUENA)
         self.text_conteudo.grid(row=4, column=1, columnspan=2, sticky=W+E)
         self.scroll.config(command=self.text_conteudo.yview)
 
@@ -116,7 +117,6 @@ class Buscador(object):
                     for i in range(len(conteudos)):
                         self.text_conteudo.insert(END, conteudos[i].get_text()
                                                   + '\n')
-                        self.text_conteudo['bg'] = WhiteSmoke
                 else:
                     messagebox.showwarning('aviso', 'Seleção incorreta')
 
