@@ -3,7 +3,7 @@ from urllib.error import HTTPError
 from urllib.error import URLError
 from bs4 import BeautifulSoup
 from tkinter import *
-from functools import partial
+#from functools import partial
 import os.path
 
 #cores
@@ -18,7 +18,7 @@ FONTE_VERDANA_BOLD = ('Verdana', 20, 'bold')
 FONTE_PAPYRUS_BOLD = ('papyrus',  15, 'bold')
 #configs
 
-config_label = {'font': FONTE_VERDANA_BOLD,  'fg': WhiteSmoke, 'bg': LightSkyBlue, 'pady': 5}
+config_label = {'font': FONTE_VERDANA_BOLD,  'fg': WhiteSmoke, 'bg': LightSkyBlue}
 config_entry = {'font': FONTE_PAPYRUS_BOLD,  'fg': LightSlateGray, 'relief': FLAT}
 config_bt = {'font': FONTE_PAPYRUS_BOLD, 'bg':  'white', 'fg': LightSkyBlue,
                     'cursor': 'hand2', 'bd': 1, 'relief': SOLID}
@@ -184,5 +184,5 @@ class Buscador(object):
         self.limpar()
         self.text_conteudo.insert(END,  texto_formatado)
 
-                   
-buscador = Buscador()
+if __name__ == '__main__':
+    buscador = Buscador()
