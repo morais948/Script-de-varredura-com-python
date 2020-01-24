@@ -3,6 +3,7 @@ from urllib.error import HTTPError
 from urllib.error import URLError
 from bs4 import BeautifulSoup
 from tkinter import *
+from tkinter import messagebox
 #from functools import partial
 import os.path
 
@@ -44,17 +45,23 @@ class Buscador(object):
 
         self.entrada_url = Entry(self.frame_inicial, **config_entry)
         self.entrada_url.grid(row=1, column=2)
-        self.entrada_url.bind("<Key>", self.iniciar)
+        #self.entrada_url.bind("<Key>", self.iniciar)
+        self.entrada_url.bind("<Return>", self.iniciar)
         self.entrada_url.focus_set()
         self.entrada_url.insert(0, 'cole a url aqui')
+
 
     def teste_key(self, evento):
         print(f"tecla pressionada {evento.keycode}")
 
     def iniciar(self, evento):
-       if evento.keycode == 13 and len(self.entrada_url.get()) > 0 and self.entrada_url.get() != 'cole a url aqui':
+       if len(self.entrada_url.get()) > 0 and self.entrada_url.get() != 'cole a url aqui':
            self.frame_inicial.pack_forget()
            self.cria_tela_menu()
+       else:
+           messagebox.showerror('erro', 'Por favor cole a URL')
+
+
            
         
     def cria_tela_menu(self):
@@ -102,19 +109,25 @@ class Buscador(object):
         if len(self.entrada_tag.get()) > 0:
             try:
                 html = urlopen(self.entrada_url.get())
+                bs = BeautifulSoup(html, 'html.parser')
+                conteudos = bs.select(self.entrada_tag.get())
+
+                if len(conteudos) > 0:
+                    for i in range(len(conteudos)):
+                        self.text_conteudo.insert(END, conteudos[i].get_text()
+                                                  + '\n')
+                        self.text_conteudo['bg'] = WhiteSmoke
+                else:
+                    messagebox.showwarning('aviso', 'Seleção incorreta')
+
             except HTTPError as e:
-                print(e)
+                messagebox.showerror('erro', f'erro HTTP {e}')
             except URLError as e:
-                print('URL errada!')
+                messagebox.showerror('erro', 'URL errada!')
+            except:
+                messagebox.showerror('erro', 'Por favor verifique a URL')
                 
-            bs = BeautifulSoup(html, 'html.parser')
-            #print(bs)
-            conteudos = bs.select(self.entrada_tag.get())
-            
-            for i in range(len(conteudos)):   
-                self.text_conteudo.insert(END,  conteudos[i].get_text()
-                                          + '\n')
-                self.text_conteudo['bg'] = WhiteSmoke          
+
     
     def chamar_eventos(self):
         self.entrada_tag.bind("<Return>", self.buscar)
