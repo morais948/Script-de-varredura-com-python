@@ -15,7 +15,7 @@ WhiteSmoke = '#F5F5F5'
 PaleGoldenrod = '#EEE8AA'
 #fontes
 FONTE_VERDANA_BOLD = ('Verdana', 20, 'bold')
-FONTE_PAPYRUS_BOLD = ('papyrus', 16, 'bold')
+FONTE_PAPYRUS_BOLD = ('papyrus',  15, 'bold')
 #configs
 
 config_label = {'font': FONTE_VERDANA_BOLD,  'fg': WhiteSmoke, 'bg': LightSkyBlue, 'pady': 5}
@@ -28,9 +28,10 @@ class Buscador(object):
         self.janela = Tk()
         self.janela.title('Buscador')
         self.janela['bg'] = LightSkyBlue
-        self.janela.wm_iconbitmap('lupa.ico')
+        self.janela.wm_iconbitmap('imagens/lupa.ico')
         self.janela.resizable(False, False)
         self.criar_tela_inicial()
+        self.trancado = False
         self.janela.mainloop()
 
 
@@ -64,34 +65,34 @@ class Buscador(object):
         self.menubar.add_command(label="Salvar", command=self.salvar)
         self.menubar.add_command(label="Voltar", command=self.voltar)
         self.menubar.add_command(label="Limpar", command=self.limpar)
+        self.menubar.add_command(label="Formatar", command=self.formatar)
         self.janela.config(menu=self.menubar)
         
         #-----------------------------------------------------------------------------------------------------------------------------------------------
-        self.label_tag = Label(self.frame_busca, text='Selecione ', **config_label)
+        self.label_tag = Label(self.frame_busca, text='Selecione    ', **config_label)
         self.label_tag.grid(row=1, column=1, sticky=E)
 
         self.entrada_tag = Entry(self.frame_busca, **config_entry)
         self.entrada_tag.grid(row=1, column=2, sticky=W)
         self.entrada_tag.focus_set()
 
-        #em testes---------------
-        cadeado = PhotoImage(file="cadeadoFechado.png")
-        label_cadeado = Label(self.frame_busca, cursor='hand2', image=cadeado)
-        label_cadeado.imagem = cadeado
-        label_cadeado.grid(row=1, column=1, sticky=W)
-        # em testes---------------
+     
+        cadeado = PhotoImage(file="imagens/cadeadoAberto.png")
+        self.label_cadeado = Label(self.frame_busca, cursor='hand2', image=cadeado)
+        self.label_cadeado.imagem = cadeado
+        self.label_cadeado.grid(row=1, column=1, sticky=W)
 
          #-----------------------------------------------------------------------------------------------------------------------------------------------
-        delete = PhotoImage(file="delete1.png")
+        delete = PhotoImage(file="imagens/delete1.png")
         self.bt_delete = Label(self.frame_busca, cursor='hand2', image=delete)
         self.bt_delete.imagem = delete
-        self.bt_delete.grid(row=1, column=2, sticky=E)
+        self.bt_delete.grid(row=1, column=1, sticky=E)
         #-----------------------------------------------------------------------------------------------------------------------------------------------
         self.scroll = Scrollbar(self.frame_busca)
         self.scroll.grid(row=4, column=3, rowspan=2, sticky=N+S)
         
         self.text_conteudo = Text(self.frame_busca, wrap=WORD, yscrollcommand=self.scroll.set,
-                                  bg=WhiteSmoke)
+                                  bg=WhiteSmoke, state=NORMAL)
         self.text_conteudo.grid(row=4, column=1, columnspan=2, sticky=W+E)
         self.scroll.config(command=self.text_conteudo.yview)
 
@@ -111,12 +112,14 @@ class Buscador(object):
             conteudos = bs.select(self.entrada_tag.get())
             
             for i in range(len(conteudos)):   
-                self.text_conteudo.insert(END,  conteudos[i].get_text() + '\n')
+                self.text_conteudo.insert(END,  conteudos[i].get_text()
+                                          + '\n')
                 self.text_conteudo['bg'] = WhiteSmoke          
     
     def chamar_eventos(self):
         self.entrada_tag.bind("<Return>", self.buscar)
         self.bt_delete.bind('<Button-1>', self.limpar_entry)
+        self.label_cadeado.bind('<Button-1>', self.trancar_destrancar)
         self.bt_delete.bind('<Enter>', self.trocar_img_enter)
         self.bt_delete.bind('<Leave>', self.trocar_img_leave)
 
@@ -152,17 +155,34 @@ class Buscador(object):
         self.entrada_tag.delete(0, END)
 
     def trocar_img_enter(self, evento):
-        delete = PhotoImage(file="delete2.png")
+        delete = PhotoImage(file="imagens/delete2.png")
         self.bt_delete['image'] = delete
         self.bt_delete.imagem = delete
         
     def trocar_img_leave(self, evento):
-        delete = PhotoImage(file="delete1.png")
+        delete = PhotoImage(file="imagens/delete1.png")
         self.bt_delete['image'] = delete
         self.bt_delete.imagem = delete
 
+    def trancar_destrancar(self, evento):
+        if self.trancado:
+            cadeado = PhotoImage(file="imagens/cadeadoAberto.png")
+            self.text_conteudo['state'] = NORMAL
+            self.trancado = False
+        else:
+            cadeado = PhotoImage(file="imagens/cadeadoFechado.png")
+            self.text_conteudo['state'] = DISABLED
+            self.trancado = True
+            
+        self.label_cadeado['image'] = cadeado
+        self.label_cadeado.imagem = cadeado
+
+    def formatar(self):
+        texto = self.text_conteudo.get(1.0, END)
+        text = texto.split()
+        texto_formatado = ' '.join(text)
+        self.limpar()
+        self.text_conteudo.insert(END,  texto_formatado)
+
                    
 buscador = Buscador()
-
-#trabalhar na funcionalidade do cadeado...
-
