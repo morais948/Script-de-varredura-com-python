@@ -46,7 +46,7 @@ class Buscador(object):
 
         self.entrada_url = Entry(self.frame_inicial, **config_entry)
         self.entrada_url.grid(row=1, column=2)
-        #self.entrada_url.bind("<Key>", self.iniciar)
+        #self.entrada_url.bind("<Key>", self.teste_key)
         self.entrada_url.bind("<Return>", self.iniciar)
         self.entrada_url.focus_set()
         self.entrada_url.insert(0, 'cole a url aqui')
