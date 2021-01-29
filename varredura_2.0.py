@@ -36,7 +36,6 @@ class Buscador(object):
         self.trancado = False
         self.janela.mainloop()
 
-
     def criar_tela_inicial(self):
         self.frame_inicial = Frame(self.janela, bg=LightSkyBlue, bd=10)
         self.frame_inicial.pack(fill=BOTH)
@@ -51,7 +50,6 @@ class Buscador(object):
         self.entrada_url.focus_set()
         self.entrada_url.insert(0, 'cole a url aqui')
 
-
     def teste_key(self, evento):
         print(f"tecla pressionada {evento.keycode}")
 
@@ -62,9 +60,6 @@ class Buscador(object):
        else:
            messagebox.showerror('erro', 'Por favor cole a URL')
 
-
-           
-        
     def cria_tela_menu(self):
         self.frame_busca = Frame(self.janela, bg=LightSkyBlue, bd=10)
         self.frame_busca.pack(fill=BOTH)
@@ -75,7 +70,6 @@ class Buscador(object):
         self.menubar.add_command(label="Limpar", command=self.limpar)
         self.menubar.add_command(label="Formatar", command=self.formatar)
         self.janela.config(menu=self.menubar)
-        
         #-----------------------------------------------------------------------------------------------------------------------------------------------
         self.label_tag = Label(self.frame_busca, text='Selecione    ', **config_label)
         self.label_tag.grid(row=1, column=1, sticky=E)
@@ -84,13 +78,12 @@ class Buscador(object):
         self.entrada_tag.grid(row=1, column=2, sticky=W)
         self.entrada_tag.focus_set()
 
-     
         cadeado = PhotoImage(file="imagens/cadeadoAberto.png")
         self.label_cadeado = Label(self.frame_busca, cursor='hand2', image=cadeado, bg=LightSkyBlue)
         self.label_cadeado.imagem = cadeado
         self.label_cadeado.grid(row=1, column=1, sticky=W)
 
-         #-----------------------------------------------------------------------------------------------------------------------------------------------
+        #-----------------------------------------------------------------------------------------------------------------------------------------------
         delete = PhotoImage(file="imagens/delete1.png")
         self.bt_delete = Label(self.frame_busca, cursor='hand2', image=delete, bg=LightSkyBlue)
         self.bt_delete.imagem = delete
@@ -126,9 +119,7 @@ class Buscador(object):
                 messagebox.showerror('erro', 'URL errada!')
             except:
                 messagebox.showerror('erro', 'Por favor verifique a URL')
-                
-
-    
+                 
     def chamar_eventos(self):
         self.entrada_tag.bind("<Return>", self.buscar)
         self.bt_delete.bind('<Button-1>', self.limpar_entry)
@@ -153,8 +144,7 @@ class Buscador(object):
 
             arquivo = open('dados.text', 'w', encoding='utf8')#escrita
             arquivo.writelines(conteudo)
-            arquivo.close()
-            
+            arquivo.close()      
 
     def voltar(self):
         self.frame_busca.pack_forget()
